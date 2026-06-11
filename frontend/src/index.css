@@ -1,0 +1,118 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0f0f13;
+  --surface: #1a1a24;
+  --surface2: #22222f;
+  --border: #2e2e40;
+  --accent: #7c6af7;
+  --accent2: #5eead4;
+  --text: #e8e8f0;
+  --muted: #8888aa;
+  --danger: #f87171;
+  --success: #4ade80;
+  --warning: #fbbf24;
+  --radius: 10px;
+  --font: 'Inter', system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* Layout */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 220px; background: var(--surface); border-right: 1px solid var(--border);
+  padding: 24px 0; display: flex; flex-direction: column; gap: 4px;
+  position: fixed; height: 100vh;
+}
+.sidebar-logo { padding: 0 20px 20px; font-size: 20px; font-weight: 700; color: var(--accent); letter-spacing: -0.5px; }
+.sidebar-logo span { color: var(--accent2); }
+.nav-item {
+  padding: 10px 20px; cursor: pointer; border-radius: 0; color: var(--muted);
+  transition: all 0.15s; font-size: 14px; display: flex; align-items: center; gap: 10px;
+}
+.nav-item:hover { background: var(--surface2); color: var(--text); }
+.nav-item.active { background: rgba(124,106,247,0.15); color: var(--accent); border-right: 2px solid var(--accent); }
+
+.main { margin-left: 220px; flex: 1; padding: 32px; }
+.page-title { font-size: 24px; font-weight: 700; margin-bottom: 24px; }
+.page-title span { color: var(--muted); font-size: 14px; font-weight: 400; margin-left: 8px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.card-title { font-size: 15px; font-weight: 600; }
+
+/* Stats */
+.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+.stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+.stat-value { font-size: 32px; font-weight: 700; }
+.stat-value.accent { color: var(--accent); }
+.stat-value.teal { color: var(--accent2); }
+.stat-value.green { color: var(--success); }
+
+/* Table */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { text-align: left; padding: 10px 14px; color: var(--muted); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: 0.4px; border-bottom: 1px solid var(--border); }
+td { padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--surface2); }
+
+/* Buttons */
+.btn { padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: #6a59e0; }
+.btn-sm { padding: 5px 10px; font-size: 12px; }
+.btn-danger { background: rgba(248,113,113,0.15); color: var(--danger); border: 1px solid rgba(248,113,113,0.3); }
+.btn-danger:hover { background: rgba(248,113,113,0.25); }
+.btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+.btn-ghost:hover { color: var(--text); border-color: var(--muted); }
+.btn-teal { background: rgba(94,234,212,0.15); color: var(--accent2); border: 1px solid rgba(94,234,212,0.3); }
+.btn-teal:hover { background: rgba(94,234,212,0.25); }
+
+/* Forms */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group.full { grid-column: 1 / -1; }
+label { font-size: 12px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.4px; }
+input, select, textarea {
+  background: var(--surface2); border: 1px solid var(--border); border-radius: 6px;
+  padding: 8px 12px; color: var(--text); font-size: 14px; outline: none;
+  transition: border-color 0.15s;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+textarea { resize: vertical; min-height: 80px; }
+select option { background: var(--surface2); }
+
+.form-row { display: flex; gap: 12px; align-items: flex-end; }
+.form-actions { margin-top: 16px; display: flex; gap: 8px; justify-content: flex-end; }
+
+/* Badges */
+.badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
+.badge-pending  { background: rgba(251,191,36,0.15); color: var(--warning); }
+.badge-confirmed { background: rgba(124,106,247,0.15); color: var(--accent); }
+.badge-shipped   { background: rgba(94,234,212,0.15); color: var(--accent2); }
+.badge-delivered { background: rgba(74,222,128,0.15); color: var(--success); }
+.badge-cancelled { background: rgba(248,113,113,0.15); color: var(--danger); }
+
+/* Error / empty */
+.error-msg { color: var(--danger); background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.2); border-radius: 6px; padding: 10px 14px; font-size: 13px; margin-bottom: 12px; }
+.empty-state { text-align: center; padding: 48px; color: var(--muted); }
+.loading { color: var(--muted); padding: 24px; text-align: center; }
+
+/* Modal */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 100; }
+.modal { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; width: 480px; max-width: 95vw; max-height: 90vh; overflow-y: auto; }
+.modal-title { font-size: 17px; font-weight: 600; margin-bottom: 20px; }
+
+/* HATEOAS links box */
+.links-box { margin-top: 8px; background: var(--surface2); border-radius: 6px; padding: 10px 12px; }
+.links-box p { font-size: 11px; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.4px; }
+.links-box a { display: block; font-size: 12px; color: var(--accent); text-decoration: none; margin-bottom: 2px; }

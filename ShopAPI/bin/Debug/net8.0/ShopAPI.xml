@@ -1,0 +1,406 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ShopAPI</name>
+    </assembly>
+    <members>
+        <member name="T:ShopAPI.Controllers.CategoriesController">
+            <summary>Manages product categories.</summary>
+        </member>
+        <member name="M:ShopAPI.Controllers.CategoriesController.#ctor(ShopAPI.Repositories.ICategoryRepository,ShopAPI.Services.ILinkService)">
+            <summary>Injects repository and link service.</summary>
+        </member>
+        <member name="M:ShopAPI.Controllers.CategoriesController.GetAll">
+            <summary>Returns all categories with product counts.</summary>
+        </member>
+        <member name="M:ShopAPI.Controllers.CategoriesController.GetById(System.Int32)">
+            <summary>Returns a single category by ID.</summary>
+            <param name="id">Category ID.</param>
+        </member>
+        <member name="M:ShopAPI.Controllers.CategoriesController.Create(ShopAPI.DTOs.CreateCategoryRequest)">
+            <summary>Creates a new category.</summary>
+            <param name="request">Category data.</param>
+        </member>
+        <member name="M:ShopAPI.Controllers.CategoriesController.Delete(System.Int32)">
+            <summary>Deletes a category. Fails if it has associated products.</summary>
+            <param name="id">Category ID.</param>
+        </member>
+        <member name="T:ShopAPI.Controllers.OrdersController">
+            <summary>Handles order placement and status management.</summary>
+        </member>
+        <member name="M:ShopAPI.Controllers.OrdersController.#ctor(ShopAPI.Repositories.IOrderRepository,ShopAPI.Repositories.IProductRepository,ShopAPI.Services.ILinkService)">
+            <summary>Injects required repositories and link service.</summary>
+        </member>
+        <member name="M:ShopAPI.Controllers.OrdersController.GetAll">
+            <summary>Returns all orders.</summary>
+        </member>
+        <member name="M:ShopAPI.Controllers.OrdersController.GetById(System.Int32)">
+            <summary>Returns a single order by ID.</summary>
+            <param name="id">Order ID.</param>
+        </member>
+        <member name="M:ShopAPI.Controllers.OrdersController.Create(ShopAPI.DTOs.CreateOrderRequest)">
+            <summary>Places a new order. Validates stock and snapshots prices.</summary>
+            <param name="request">Order details including customer info and items.</param>
+        </member>
+        <member name="M:ShopAPI.Controllers.OrdersController.UpdateStatus(System.Int32,ShopAPI.DTOs.UpdateOrderStatusRequest)">
+            <summary>Updates only the status of an order (e.g. Pending → Confirmed).</summary>
+            <param name="id">Order ID.</param>
+            <param name="request">New status value.</param>
+        </member>
+        <member name="T:ShopAPI.Controllers.ProductsController">
+            <summary>
+            Manages product CRUD operations.
+            Supports filtering by category and full HATEOAS linking.
+            </summary>
+        </member>
+        <member name="M:ShopAPI.Controllers.ProductsController.#ctor(ShopAPI.Repositories.IProductRepository,ShopAPI.Repositories.ICategoryRepository,ShopAPI.Services.ILinkService)">
+            <summary>Injects required services.</summary>
+        </member>
+        <member name="M:ShopAPI.Controllers.ProductsController.GetAll(System.Nullable{System.Int32})">
+            <summary>Returns all products, optionally filtered by category.</summary>
+            <param name="categoryId">Optional category filter.</param>
+        </member>
+        <member name="M:ShopAPI.Controllers.ProductsController.GetById(System.Int32)">
+            <summary>Returns a single product by ID.</summary>
+            <param name="id">Product ID.</param>
+        </member>
+        <member name="M:ShopAPI.Controllers.ProductsController.Create(ShopAPI.DTOs.CreateProductRequest)">
+            <summary>Creates a new product.</summary>
+            <param name="request">Product data.</param>
+        </member>
+        <member name="M:ShopAPI.Controllers.ProductsController.Update(System.Int32,ShopAPI.DTOs.UpdateProductRequest)">
+            <summary>Fully replaces a product.</summary>
+            <param name="id">Product ID to update.</param>
+            <param name="request">Replacement data.</param>
+        </member>
+        <member name="M:ShopAPI.Controllers.ProductsController.Delete(System.Int32)">
+            <summary>Deletes a product by ID.</summary>
+            <param name="id">Product ID.</param>
+        </member>
+        <member name="T:ShopAPI.Data.AppDbContext">
+            <summary>
+            Entity Framework database context for ShopAPI.
+            Represents a session with the SQLite database.
+            </summary>
+        </member>
+        <member name="M:ShopAPI.Data.AppDbContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{ShopAPI.Data.AppDbContext})">
+            <summary>Initializes the context with injected options.</summary>
+        </member>
+        <member name="P:ShopAPI.Data.AppDbContext.Products">
+            <summary>Products table.</summary>
+        </member>
+        <member name="P:ShopAPI.Data.AppDbContext.Categories">
+            <summary>Categories table.</summary>
+        </member>
+        <member name="P:ShopAPI.Data.AppDbContext.Orders">
+            <summary>Orders table.</summary>
+        </member>
+        <member name="P:ShopAPI.Data.AppDbContext.OrderItems">
+            <summary>Order line items table.</summary>
+        </member>
+        <member name="M:ShopAPI.Data.AppDbContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <summary>Configures entity relationships and seed data.</summary>
+        </member>
+        <member name="T:ShopAPI.DTOs.CategoryResponse">
+            <summary>Category response with HATEOAS links.</summary>
+        </member>
+        <member name="M:ShopAPI.DTOs.CategoryResponse.#ctor(System.Int32,System.String,System.String,System.Int32,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>Category response with HATEOAS links.</summary>
+        </member>
+        <member name="T:ShopAPI.DTOs.CreateCategoryRequest">
+            <summary>Payload for creating a category.</summary>
+        </member>
+        <member name="M:ShopAPI.DTOs.CreateCategoryRequest.#ctor(System.String,System.String)">
+            <summary>Payload for creating a category.</summary>
+        </member>
+        <member name="T:ShopAPI.DTOs.OrderItemRequest">
+            <summary>Order item inside a request.</summary>
+        </member>
+        <member name="M:ShopAPI.DTOs.OrderItemRequest.#ctor(System.Int32,System.Int32)">
+            <summary>Order item inside a request.</summary>
+        </member>
+        <member name="T:ShopAPI.DTOs.OrderItemResponse">
+            <summary>Order item in a response.</summary>
+        </member>
+        <member name="M:ShopAPI.DTOs.OrderItemResponse.#ctor(System.Int32,System.String,System.Int32,System.Decimal,System.Decimal)">
+            <summary>Order item in a response.</summary>
+        </member>
+        <member name="T:ShopAPI.DTOs.OrderResponse">
+            <summary>Full order response with HATEOAS links.</summary>
+        </member>
+        <member name="M:ShopAPI.DTOs.OrderResponse.#ctor(System.Int32,System.String,System.String,System.String,System.Decimal,System.DateTime,System.Collections.Generic.IEnumerable{ShopAPI.DTOs.OrderItemResponse},System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>Full order response with HATEOAS links.</summary>
+        </member>
+        <member name="T:ShopAPI.DTOs.CreateOrderRequest">
+            <summary>Payload for placing a new order.</summary>
+        </member>
+        <member name="M:ShopAPI.DTOs.CreateOrderRequest.#ctor(System.String,System.String,System.Collections.Generic.IEnumerable{ShopAPI.DTOs.OrderItemRequest})">
+            <summary>Payload for placing a new order.</summary>
+        </member>
+        <member name="T:ShopAPI.DTOs.UpdateOrderStatusRequest">
+            <summary>Payload for updating order status only.</summary>
+        </member>
+        <member name="M:ShopAPI.DTOs.UpdateOrderStatusRequest.#ctor(ShopAPI.Models.OrderStatus)">
+            <summary>Payload for updating order status only.</summary>
+        </member>
+        <member name="T:ShopAPI.DTOs.ProductResponse">
+            <summary>Read-only product response with HATEOAS links.</summary>
+        </member>
+        <member name="M:ShopAPI.DTOs.ProductResponse.#ctor(System.Int32,System.String,System.String,System.Decimal,System.Int32,System.Int32,System.String,System.DateTime,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>Read-only product response with HATEOAS links.</summary>
+        </member>
+        <member name="T:ShopAPI.DTOs.CreateProductRequest">
+            <summary>Payload for creating a new product.</summary>
+        </member>
+        <member name="M:ShopAPI.DTOs.CreateProductRequest.#ctor(System.String,System.String,System.Decimal,System.Int32,System.Int32)">
+            <summary>Payload for creating a new product.</summary>
+        </member>
+        <member name="T:ShopAPI.DTOs.UpdateProductRequest">
+            <summary>Payload for fully updating a product.</summary>
+        </member>
+        <member name="M:ShopAPI.DTOs.UpdateProductRequest.#ctor(System.String,System.String,System.Decimal,System.Int32,System.Int32)">
+            <summary>Payload for fully updating a product.</summary>
+        </member>
+        <member name="T:ShopAPI.Middleware.ErrorHandlingMiddleware">
+            <summary>
+            Global error handling middleware.
+            Catches unhandled exceptions and returns consistent JSON error responses.
+            Without this, unhandled exceptions return ugly HTML stack traces to clients.
+            </summary>
+        </member>
+        <member name="M:ShopAPI.Middleware.ErrorHandlingMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate,Microsoft.Extensions.Logging.ILogger{ShopAPI.Middleware.ErrorHandlingMiddleware})">
+            <summary>Requires the next middleware in the pipeline and a logger.</summary>
+        </member>
+        <member name="M:ShopAPI.Middleware.ErrorHandlingMiddleware.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>Invokes the middleware, catching and transforming any unhandled exceptions.</summary>
+        </member>
+        <member name="T:ShopAPI.Models.Category">
+            <summary>Product category entity.</summary>
+        </member>
+        <member name="P:ShopAPI.Models.Category.Id">
+            <summary>Primary key.</summary>
+        </member>
+        <member name="P:ShopAPI.Models.Category.Name">
+            <summary>Category name e.g. Electronics, Clothing.</summary>
+        </member>
+        <member name="P:ShopAPI.Models.Category.Description">
+            <summary>Optional description.</summary>
+        </member>
+        <member name="P:ShopAPI.Models.Category.Products">
+            <summary>Products in this category.</summary>
+        </member>
+        <member name="T:ShopAPI.Models.OrderStatus">
+            <summary>Order status values.</summary>
+        </member>
+        <member name="T:ShopAPI.Models.Order">
+            <summary>Customer order entity.</summary>
+        </member>
+        <member name="P:ShopAPI.Models.Order.Id">
+            <summary>Primary key.</summary>
+        </member>
+        <member name="P:ShopAPI.Models.Order.CustomerName">
+            <summary>Customer full name.</summary>
+        </member>
+        <member name="P:ShopAPI.Models.Order.CustomerEmail">
+            <summary>Customer email address.</summary>
+        </member>
+        <member name="P:ShopAPI.Models.Order.Status">
+            <summary>Current order status.</summary>
+        </member>
+        <member name="P:ShopAPI.Models.Order.CreatedAt">
+            <summary>When the order was placed (UTC).</summary>
+        </member>
+        <member name="P:ShopAPI.Models.Order.Items">
+            <summary>Line items belonging to this order.</summary>
+        </member>
+        <member name="P:ShopAPI.Models.Order.Total">
+            <summary>Computed total from all items.</summary>
+        </member>
+        <member name="T:ShopAPI.Models.OrderItem">
+            <summary>A single line item within an order.</summary>
+        </member>
+        <member name="P:ShopAPI.Models.OrderItem.Id">
+            <summary>Primary key.</summary>
+        </member>
+        <member name="P:ShopAPI.Models.OrderItem.OrderId">
+            <summary>Foreign key to Order.</summary>
+        </member>
+        <member name="P:ShopAPI.Models.OrderItem.Order">
+            <summary>Navigation property.</summary>
+        </member>
+        <member name="P:ShopAPI.Models.OrderItem.ProductId">
+            <summary>Foreign key to Product.</summary>
+        </member>
+        <member name="P:ShopAPI.Models.OrderItem.Product">
+            <summary>Navigation property.</summary>
+        </member>
+        <member name="P:ShopAPI.Models.OrderItem.Quantity">
+            <summary>Quantity ordered.</summary>
+        </member>
+        <member name="P:ShopAPI.Models.OrderItem.UnitPrice">
+            <summary>Price snapshot at purchase time.</summary>
+        </member>
+        <member name="T:ShopAPI.Models.Product">
+            <summary>Product entity — core item sold in the shop.</summary>
+        </member>
+        <member name="P:ShopAPI.Models.Product.Id">
+            <summary>Primary key.</summary>
+        </member>
+        <member name="P:ShopAPI.Models.Product.Name">
+            <summary>Product name.</summary>
+        </member>
+        <member name="P:ShopAPI.Models.Product.Description">
+            <summary>Detailed description.</summary>
+        </member>
+        <member name="P:ShopAPI.Models.Product.Price">
+            <summary>Price in USD.</summary>
+        </member>
+        <member name="P:ShopAPI.Models.Product.Stock">
+            <summary>Available stock quantity.</summary>
+        </member>
+        <member name="P:ShopAPI.Models.Product.CategoryId">
+            <summary>Foreign key to Category.</summary>
+        </member>
+        <member name="P:ShopAPI.Models.Product.Category">
+            <summary>Navigation property.</summary>
+        </member>
+        <member name="P:ShopAPI.Models.Product.CreatedAt">
+            <summary>Creation timestamp (UTC).</summary>
+        </member>
+        <member name="T:ShopAPI.Repositories.CategoryRepository">
+            <summary>EF Core implementation of <see cref="T:ShopAPI.Repositories.ICategoryRepository"/>.</summary>
+        </member>
+        <member name="M:ShopAPI.Repositories.CategoryRepository.#ctor(ShopAPI.Data.AppDbContext)">
+            <summary>Injects the database context.</summary>
+        </member>
+        <member name="M:ShopAPI.Repositories.CategoryRepository.GetAllAsync">
+            <inheritdoc/>
+        </member>
+        <member name="M:ShopAPI.Repositories.CategoryRepository.GetByIdAsync(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ShopAPI.Repositories.CategoryRepository.CreateAsync(ShopAPI.Models.Category)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ShopAPI.Repositories.CategoryRepository.DeleteAsync(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ShopAPI.Repositories.CategoryRepository.ExistsAsync(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="T:ShopAPI.Repositories.ICategoryRepository">
+            <summary>Data access operations for categories.</summary>
+        </member>
+        <member name="T:ShopAPI.Repositories.IOrderRepository">
+            <summary>Data access operations for orders.</summary>
+        </member>
+        <member name="T:ShopAPI.Repositories.IProductRepository">
+            <summary>
+            Defines data access operations for products.
+            Depending on this interface (not the concrete class) keeps controllers testable.
+            </summary>
+        </member>
+        <member name="M:ShopAPI.Repositories.IProductRepository.GetAllAsync">
+            <summary>Returns all products including their category.</summary>
+        </member>
+        <member name="M:ShopAPI.Repositories.IProductRepository.GetByIdAsync(System.Int32)">
+            <summary>Returns a single product by ID, or null if not found.</summary>
+        </member>
+        <member name="M:ShopAPI.Repositories.IProductRepository.GetByCategoryAsync(System.Int32)">
+            <summary>Returns all products in a given category.</summary>
+        </member>
+        <member name="M:ShopAPI.Repositories.IProductRepository.CreateAsync(ShopAPI.Models.Product)">
+            <summary>Persists a new product.</summary>
+        </member>
+        <member name="M:ShopAPI.Repositories.IProductRepository.UpdateAsync(ShopAPI.Models.Product)">
+            <summary>Updates an existing product.</summary>
+        </member>
+        <member name="M:ShopAPI.Repositories.IProductRepository.DeleteAsync(System.Int32)">
+            <summary>Deletes a product by ID. Returns false if not found.</summary>
+        </member>
+        <member name="M:ShopAPI.Repositories.IProductRepository.ExistsAsync(System.Int32)">
+            <summary>Checks whether a product with the given ID exists.</summary>
+        </member>
+        <member name="T:ShopAPI.Repositories.OrderRepository">
+            <summary>EF Core implementation of <see cref="T:ShopAPI.Repositories.IOrderRepository"/>.</summary>
+        </member>
+        <member name="M:ShopAPI.Repositories.OrderRepository.#ctor(ShopAPI.Data.AppDbContext)">
+            <summary>Injects the database context.</summary>
+        </member>
+        <member name="M:ShopAPI.Repositories.OrderRepository.GetAllAsync">
+            <inheritdoc/>
+        </member>
+        <member name="M:ShopAPI.Repositories.OrderRepository.GetByIdAsync(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ShopAPI.Repositories.OrderRepository.CreateAsync(ShopAPI.Models.Order)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ShopAPI.Repositories.OrderRepository.UpdateAsync(ShopAPI.Models.Order)">
+            <inheritdoc/>
+        </member>
+        <member name="T:ShopAPI.Repositories.ProductRepository">
+            <summary>
+            Concrete EF Core implementation of <see cref="T:ShopAPI.Repositories.IProductRepository"/>.
+            All database queries live here — controllers never touch DbContext directly.
+            </summary>
+        </member>
+        <member name="M:ShopAPI.Repositories.ProductRepository.#ctor(ShopAPI.Data.AppDbContext)">
+            <summary>Constructor — AppDbContext injected by DI container.</summary>
+        </member>
+        <member name="M:ShopAPI.Repositories.ProductRepository.GetAllAsync">
+            <inheritdoc/>
+        </member>
+        <member name="M:ShopAPI.Repositories.ProductRepository.GetByIdAsync(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ShopAPI.Repositories.ProductRepository.GetByCategoryAsync(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ShopAPI.Repositories.ProductRepository.CreateAsync(ShopAPI.Models.Product)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ShopAPI.Repositories.ProductRepository.UpdateAsync(ShopAPI.Models.Product)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ShopAPI.Repositories.ProductRepository.DeleteAsync(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ShopAPI.Repositories.ProductRepository.ExistsAsync(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="T:ShopAPI.Services.ILinkService">
+            <summary>
+            Builds HATEOAS hypermedia links for API responses.
+            This is what pushes us to Richardson Maturity Level 4.
+            </summary>
+        </member>
+        <member name="M:ShopAPI.Services.ILinkService.GetProductLinks(System.Int32)">
+            <summary>Returns links for a product resource.</summary>
+        </member>
+        <member name="M:ShopAPI.Services.ILinkService.GetCategoryLinks(System.Int32)">
+            <summary>Returns links for a category resource.</summary>
+        </member>
+        <member name="M:ShopAPI.Services.ILinkService.GetOrderLinks(System.Int32)">
+            <summary>Returns links for an order resource.</summary>
+        </member>
+        <member name="T:ShopAPI.Services.LinkService">
+            <summary>
+            Generates HATEOAS _links for each resource type.
+            Links tell API clients what actions are available next — no out-of-band docs needed.
+            </summary>
+        </member>
+        <member name="M:ShopAPI.Services.LinkService.#ctor(Microsoft.AspNetCore.Http.IHttpContextAccessor)">
+            <summary>Requires IHttpContextAccessor to build absolute URLs.</summary>
+        </member>
+        <member name="M:ShopAPI.Services.LinkService.GetProductLinks(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ShopAPI.Services.LinkService.GetCategoryLinks(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ShopAPI.Services.LinkService.GetOrderLinks(System.Int32)">
+            <inheritdoc/>
+        </member>
+    </members>
+</doc>
