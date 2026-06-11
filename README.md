@@ -1,73 +1,18 @@
 # ShopAPI — E-commerce RESTful Web Service
 
-C# ASP.NET Core 8 + React · Richardson Maturity Level 4 · SQLite · xUnit tests · Swagger docs
+C# ASP.NET Core 9 + React · Richardson Maturity Level 4 · SQLite · xUnit tests · Swagger docs
 
 ---
 
 ## Quick Start (5 minutes)
 
 ### Prerequisites
-- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
 - [Node.js 18+](https://nodejs.org/)
 
-### 1. Run the backend
-
-```bash
-cd ShopAPI
-dotnet restore
-dotnet run
-```
-
-The API starts at `http://localhost:5000`.
-Swagger UI: `http://localhost:5000/swagger`
 
 The SQLite database (`shop.db`) is created automatically with seed data on first run.
 
-### 2. Run the frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-React app: `http://localhost:5173`
-
-### 3. Run unit tests
-
-```bash
-cd ShopAPI.Tests
-dotnet test
-```
-
-### 4. Run acceptance tests (Postman)
-
-1. Open Postman
-2. Import `ShopAPI.Tests/ShopAPI.postman_collection.json`
-3. Click **Run Collection**
-
----
-
-## Project Structure
-
-```
-ShopAPI/
-├── ShopAPI/                   # ASP.NET Core Web API
-│   ├── Controllers/           # HTTP endpoints (Products, Categories, Orders)
-│   ├── Models/                # Database entities (EF Core)
-│   ├── DTOs/                  # Request/Response transfer objects
-│   ├── Repositories/          # Data access layer (interface + implementation)
-│   ├── Services/              # Business logic (LinkService for HATEOAS)
-│   ├── Data/                  # DbContext + seed data
-│   ├── Middleware/            # Global error handler
-│   └── Program.cs             # DI container, middleware pipeline, Swagger
-├── ShopAPI.Tests/             # xUnit unit tests + Postman collection
-└── frontend/                  # React + Vite
-    └── src/
-        ├── pages/             # ProductsPage, CategoriesPage, OrdersPage
-        ├── services/api.js    # All API calls
-        └── index.css          # Styling
-```
 
 ---
 
