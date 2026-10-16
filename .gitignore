@@ -1,0 +1,7 @@
+
+# Build output, dependencies, IDE and local database (recreated automatically)
+bin/
+obj/
+.vs/
+node_modules/
+ShopAPI/shop.db

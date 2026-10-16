@@ -9,7 +9,40 @@ C# ASP.NET Core 9 + React · Richardson Maturity Level 4 · SQLite · xUnit test
 ### Prerequisites
 - [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
 - [Node.js 18+](https://nodejs.org/)
+- No accounts, API keys or environment variables are needed.
 
+### Run the API (backend)
+
+```bash
+git clone https://github.com/daph1231312/shopAPI.git
+cd shopAPI/ShopAPI
+dotnet dev-certs https --trust      # once, so the HTTPS dev certificate is trusted
+dotnet run                           # https://localhost:59241 (http://localhost:59242)
+```
+
+Swagger UI is enabled in development (usually at `/swagger`).
+
+### Run the web frontend (React + Vite)
+
+In a second terminal, from the repository root:
+
+```bash
+cd frontend
+npm install
+npm run dev                          # http://localhost:5173
+```
+
+The dev server proxies `/api` calls to `https://localhost:59241`, so start the API first.
+
+### Run the tests
+
+From the repository root:
+
+```bash
+dotnet test ShopAPI.Tests
+```
+
+A Postman collection is included at `ShopAPI.Tests/ShopAPI.postman_collection.json`.
 
 The SQLite database (`shop.db`) is created automatically with seed data on first run.
 
